@@ -36,6 +36,15 @@ For this problem, we are interested in data gathered and made public by _The Was
 
 ```{r}
 homicide_df = 
-  read_csv("./files/homicide-data.csv", na = c("", "Unknown"))
+  read_csv("./files/homicide-data.csv", na = c("", "Unknown")) %>% 
+  mutate(
+    city_state = str_c(city, state),
+    resolution = case_when(
+      disposition == "Closed without arrest" ~ "unsolved",
+      disposition == "Open/No arrest"        ~ "unsolved",
+      disposition == "Closed by arrest"      ~ "solved",
+    )
+  ) %>% 
+  relocate(city_state)
 ```
 
