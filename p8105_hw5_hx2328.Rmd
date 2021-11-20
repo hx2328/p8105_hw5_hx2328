@@ -133,3 +133,29 @@ homicide_df %>%
   knitr::kable()
 ```
 
+# Problem 2
+
+First get all the file names:
+
+```{r}
+zipdata = tibble(
+  files = list.files("./files/data/")
+)
+```
+
+Use the map function to get the relative directory for each file
+
+```{r}
+directory = map(.x = zipdata[[1]], ~str_c("./files/data/", .x)) %>% unlist()
+```
+
+Now get the data from each file
+
+```{r message = FALSE}
+zipdata = zipdata %>% 
+  mutate(
+    datas = map(.x = directory, ~read_csv(.x))
+  ) %>% 
+  unnest(datas)
+```
+
