@@ -9,6 +9,7 @@ output: github_document
 library(tidyverse)
 library(p8105.datasets)
 library(viridis)
+library(readr)
 
 knitr::opts_chunk$set(
   echo = TRUE,
@@ -31,4 +32,10 @@ theme_set(theme_minimal() + theme(legend.position = "bottom"))
 
 # Problem 1
 
+For this problem, we are interested in data gathered and made public by _The Washington Post_ on homicides in 50 large U.S. cities. The code chunk below imports and cleans the data.
+
+```{r}
+homicide_df = 
+  read_csv("./files/homicide-data.csv", na = c("", "Unknown"))
+```
 
