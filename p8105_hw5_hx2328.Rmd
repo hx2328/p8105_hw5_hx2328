@@ -72,3 +72,41 @@ baltimore_test =
 baltimore_test %>% 
   broom::tidy()
 ```
+
+Write a function to test other cities.
+
+```{r}
+prop_test_function = function(city_df){
+  
+  city_summary = 
+    city_df %>% 
+    summarise(
+      unsolved = sum(resolution == "unsolved"),
+      n = n()
+    )
+  
+  city_test = 
+    prop.test(
+      x = city_summary %>% pull(unsolved),
+      n = city_summary %>% pull(n)
+    )
+}
+```
+
+Iterate across cities
+
+```{r}
+results_df = 
+  homicide_df %>% 
+  nest(data = uid:resolution) %>% 
+  mutate(
+    test_results = map(data, prop_test_function),
+    tidy_results = map(test_results, broom::tidy)
+  ) %>% 
+  select(city_state, tidy_results) %>% 
+  unnest(tidy_results) %>% 
+  select(city_state, estimate, starts_with("conf"))
+
+knitr::kable(results_df)
+```
+
