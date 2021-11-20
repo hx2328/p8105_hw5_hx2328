@@ -192,3 +192,29 @@ complete_data %>%
 
 As we can see on the plot, the experimental group has generally larger observation than the control group, and we could conclude that the thing we are experimenting is effective.
 
+# Problem 3
+
+Get the data
+
+```{r}
+set.seed(10)
+
+iris_with_missing = iris %>% 
+  map_df(~replace(.x, sample(1:150, 20), NA)) %>%
+  mutate(Species = as.character(Species))
+```
+
+Now write the function
+
+```{r}
+my_function = function(vec){
+  if (is.numeric(vec)) {
+    mean = mean(vec, na.rm = TRUE)
+    vec = replace_na(vec, mean)
+  }else if (is.character(vec)) {
+    vec = replace_na(vec, "virginica")
+  }
+  vec
+}
+```
+
