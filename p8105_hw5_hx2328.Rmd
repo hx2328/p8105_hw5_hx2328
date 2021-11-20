@@ -178,3 +178,17 @@ complete_data = zipdata %>%
          week_number = as.numeric(week_number))
 ```
 
+Now get the spaghetti plot
+
+```{r}
+complete_data %>% 
+  ggplot(aes(x = week_number, y = observation, color = arm)) +
+  geom_line(aes(group = subject_id)) +
+  labs(
+    x = "Week Number",
+    title = "spaghetti plot of observations for each subject"
+  )
+```
+
+As we can see on the plot, the experimental group has generally larger observation than the control group, and we could conclude that the thing we are experimenting is effective.
+
