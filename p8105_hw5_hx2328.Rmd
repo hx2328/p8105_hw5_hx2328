@@ -119,6 +119,15 @@ results_df %>%
   geom_point() +
   geom_errorbar(aes(ymin = conf.low, ymax = conf.high)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-  
+```
+
+```{r}
+homicide_df %>% 
+  group_by(city_state) %>% 
+  summarise(
+    unsolved = sum(resolution == "unsolved"),
+    n = n()
+  ) %>% 
+  knitr::kable()
 ```
 
